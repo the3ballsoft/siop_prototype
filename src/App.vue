@@ -5,7 +5,7 @@
               <ul class="left hide-on-med-and-down">
                 <li>
                   <router-link to="/">
-                    <i class="material-icons left">dashboard</i> SIOP
+                    <i class="material-icons left">dashboard</i> SIOOP
                   </router-link>
                 </li>
               </ul>

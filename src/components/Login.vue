@@ -4,7 +4,7 @@
       <div class="l-left">
         <div class="info-logo" style="text-align: center">
           <!--<img src="http://i67.tinypic.com/33z2nag.jpg">-->
-          <h1 style="text-shadow: white 1px 3px; margin-bottom: 0">S.I.O.P.</h1>
+          <h1 style="text-shadow: white 1px 3px; margin-bottom: 0">S.I.O.O.P.</h1>
           <h3 style="text-shadow: white 1px 3px;">Guajira</h3>
         </div>
       </div>
@@ -14,7 +14,7 @@
           <div class="row mobile-info-logo">
             <div class="info-logo">
               <!--<img src="http://i63.tinypic.com/2mmef80.jpg">-->
-              <h3>SIOP</h3>
+              <h3>SIOOP</h3>
               <p>Guajira</p>
             </div>
           </div>

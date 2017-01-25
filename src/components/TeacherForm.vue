@@ -27,7 +27,7 @@
                 </ul>
 
                 <small v-if="personsResult.length == 0 && touch">No hay resultados</small>
-                <small v-if="!touch">El sistema validara si la persona esta registrada en SIOP</small>
+                <small v-if="!touch">El sistema validara si la persona esta registrada en SIOOP</small>
               </div>
             </div> 
           </div>

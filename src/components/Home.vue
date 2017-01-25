@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>Bienvenido a S.I.O.P</h1>
+        <h1>Bienvenido a S.I.O.O.P</h1>
         <small>Sistema de informacion para organizacion de planta docente</small>
         <ul>
             <li>
