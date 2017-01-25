@@ -175,7 +175,7 @@ export default {
       $('#teacherDetailModal').modal('close')
     },
     confirmDelete(teacher) {
-      const response = confirm(`¿Esta seguro que desea eliminar el docente "${teacher.name}"`)
+      const response = confirm(`¿Esta seguro que desea eliminar el docente "${teacher.person.name}"`)
       if(response) {
         this.deleteTeacher({teacher, cb: () => Materialize.toast(`Docente eliminado`, 4000) })
       }
