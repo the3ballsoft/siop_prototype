@@ -2,7 +2,13 @@
     <div id="app">
         <nav v-if="url != '/login'">
             <div class="nav-wrapper">
-                <router-link to="/" class="brand-logo">SIOP</router-link>
+              <ul class="left hide-on-med-and-down">
+                <li>
+                  <router-link to="/">
+                    <i class="material-icons left">dashboard</i> SIOP
+                  </router-link>
+                </li>
+              </ul>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li>
                         <router-link to="/teacherplant">Planta docente</router-link>

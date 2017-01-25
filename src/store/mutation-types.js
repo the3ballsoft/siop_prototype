@@ -1,6 +1,6 @@
 
-export const ADD_AREA = 'ADD_AREA' 
-export const GET_AREAS = 'GET_AREAS' 
-export const SELECT_AREA = 'SELECT_AREA' 
-export const EDIT_AREA = 'EDIT_AREA' 
-export const REMOVE_AREA = 'REMOVE_AREA' 
+export const ADD_TEACHER = 'ADD_TEACHER' 
+export const GET_TEACHERS = 'GET_TEACHERS' 
+export const SELECT_TEACHER = 'SELECT_TEACHER' 
+export const EDIT_TEACHER = 'EDIT_TEACHER' 
+export const REMOVE_TEACHER = 'REMOVE_TEACHER' 

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h3>Docentes</h3>
-    <a class="btn-floating btn-large waves-effect waves-light blue corner-btn" v-on:click="openModal({})">
+    <h4>Planta docente</h4>
+    <a class="btn-floating btn-large waves-effect waves-light blue corner-btn" v-on:click="newTeacher()">
       <i class="material-icons">add</i>
     </a>
     <div class="row">
@@ -14,18 +14,23 @@
             <table class="highlight responsive-table" v-if="!loading">
               <thead>
                 <tr>
-                  <th data-field="id">ID</th>
+                  <th data-field="dni">C.C</th>
                   <th data-field="nombre">Nombre</th>
+                  <th data-field="cargo">Cargo</th>
+                  <th data-field="area">Area de desempeño</th>
                   <th data-field="action">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="area in areas" :key="area._id">
-                  <td>{{ area._id }}</td>
-                  <td>{{ area.name }}</td>
+                <tr v-for="teacher in teachers" :key="teacher.person.dni">
+                  <td>{{ teacher.person.dni }}</td>
+                  <td>{{ teacher.person.name }}</td>
+                  <td>{{ teacher.position }}</td>
+                  <td>{{ teacher.area }}</td>
                   <td>
-                    <a class="btn-small waves-effect waves-light" v-on:click="openModal(area)"><i class="material-icons">edit</i></a>
-                    <a class="btn-small waves-effect waves-light" v-on:click="confirmDelete(area)"><i class="material-icons">delete</i></a>
+                    <a class="btn-small waves-effect waves-light" v-on:click="openModalDetail(teacher)"><i class="material-icons">remove_red_eye</i></a>
+                    <a class="btn-small waves-effect waves-light" v-on:click="editTeacher(teacher)"><i class="material-icons">edit</i></a>
+                    <a class="btn-small waves-effect waves-light" v-on:click="confirmDelete(teacher)"><i class="material-icons">delete</i></a>
                   </td>
                 </tr>
               </tbody>
@@ -36,19 +41,95 @@
     </div>
 
     <!-- Modal -->
-    <div id="areaForm" class="modal">
+    <div id="teacherDetailModal" class="modal">
       <div class="modal-content">
-        <h4>
-          <span v-if="!current._id">Nueva</span>
-          <span v-if="current._id">Editar</span> 
-          Area
-        </h4>
-        <label for="name">Nombre</label>
-        <input type="text" v-model="current.name" id="name" autofocus="true" v-on:keyup.enter="save">
+        <h4 v-if="current.person">{{ current.person.name }}</h4>
+        <div class="user-info">
+          <!--DNI-->
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Documento:</label>
+            </div>
+            <div class="col s12 m9" v-if="current.person">
+              {{ current.person.dni }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Grado:</label>
+            </div>
+            <div class="col s12 m9" v-if="current.person">
+              {{ current.person.grade }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Cargo:</label>
+            </div>
+            <div class="col s12 m9" v-if="current.person">
+              {{ current.position}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Nivel Contratacion:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.contract_level }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Situacion:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.status }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Esquema:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.schema }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Profesion:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.profession }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Sede:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.headquaters }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Area de Desempeño:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.area }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12 m3">
+              <label for="">Observacion:</label>
+            </div>
+            <div class="col s12 m9">
+              {{ current.observation }}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <a v-on:click="save()" class="modal-action modal-close waves-effect waves-green btn-flat">Guardar</a>
-        <a v-on:click="closeModal()" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+        <a v-on:click="closeModal()" class="modal-action modal-close waves-effect blue-text btn-flat">Cerrar</a>
       </div>
     </div>
   </div>
@@ -68,50 +149,47 @@ export default {
   },
   created () {
     this.$parent.url = this.$route.path
-    //this.getAreas()
-    setTimeout(() => $('.modal').modal({ dismissible: false }))
+    this.getTeachers()
+    setTimeout(() => $('.modal').modal({ in_duration: 150, out_duration: 0 }))
   },
   watch: {
-    '$route': 'getAreas'
+    '$route': 'getTeachers'
   },
   methods: {
     ...mapActions([
-      'getAreas',
-      'selectArea',
-      'createArea',
-      'updateArea',
-      'deleteArea'
+      'getTeachers',
+      'selectTeacher',
+      'createTeacher',
+      'updateTeacher',
+      'deleteTeacher'
     ]),
-    save(){
-        if(!this.current._id) 
-            this.createArea({ area: this.current, cb: this.notify('creada')})
-        else 
-            this.updateArea({ area: this.current, cb: this.notify('editada')})
-        this.closeModal()
+    editTeacher(teacher) {
+      this.selectTeacher(teacher)
+      this.$router.push(`/teacherplant/edit/${teacher.person.dni}`)
     },
-    openModal(area) {
-      this.selectArea(area);
-      $('#areaForm').modal('open')
+    openModalDetail(teacher) {
+      this.selectTeacher(teacher);
+      $('#teacherDetailModal').modal('open')
     },
     closeModal() {
-      $('#areaForm').modal('close')
+      $('#teacherDetailModal').modal('close')
     },
-    confirmDelete(area){
-      const response = confirm(`¿Esta seguro que desea eliminar el area "${area.name}"`)
-      if(response) this.deleteArea({area, cb: this.notify('eliminada') });
+    confirmDelete(teacher) {
+      const response = confirm(`¿Esta seguro que desea eliminar el docente "${teacher.name}"`)
+      if(response) {
+        this.deleteTeacher({teacher, cb: () => Materialize.toast(`Docente eliminado`, 4000) })
+      }
     },
-    notify(verb) {
-        return function(res){
-            if(res) return Materialize.toast(`Area ${verb} correctamente`, 4000)
-        }
+    newTeacher() {
+      this.$router.push('/teacherplant/new')
     }
   },
   computed: {
-    areas() {
-      return this.$store.getters.areas
+    teachers() {
+      return this.$store.getters.teachers
     },
     current() {
-      return this.$store.getters.currentArea
+      return this.$store.getters.currentTeacher
     }
   }
 }
@@ -121,5 +199,21 @@ export default {
  .loading {
      text-align: center;
      font-size: 1.5em;
+ }
+ .modal-overlay {
+   background: rgba(128, 128, 128, 0.36) !important;
+ }
+ .modal {
+   max-height: 80% !important;
+ }
+
+ @media(max-width: 460px){
+   .modal {
+     top: 0 !important;
+     height: 100% !important;
+     width: 100% !important;
+     max-height: 100% !important;
+     max-width: 100% !important;
+   }
  }
 </style>
